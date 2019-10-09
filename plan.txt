@@ -1,0 +1,17 @@
+/jenny/create/bid
+select _ from _ join
+select * userRoles natural join rolepermission where jenny username = "jenny"
+user Roles 
+___________________
+user   Roles
+jenny  admin
+Jenny  artist
+
+
+
+
+
+Role permissions 
+admin create painting
+      update bid
+Artist create painting

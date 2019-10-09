@@ -9,12 +9,14 @@
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="functions.js"></script>
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.5.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.5.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.5.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.5.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.5.0/firebase-storage.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-storage.js"></script>
+    <!--Jquery library-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     
     
     <!-- initialize the SDK after all desired features are loaded -->
@@ -25,6 +27,7 @@
       #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
       #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
       #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message input{}
       #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
       #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
       #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
@@ -35,30 +38,37 @@
       }
     </style>
   </head>
+ 
   <body>
+    <title>
+      Welcome to TicTacToe
+    </title>
     <div id="message">
       <h2>Welcome</h2>
       <h1>Firebase Hosting Setup Complete</h1>
-      <input type="button" id="signIn">sign in</input>
+      <input type="button" id="signIn" value="sign in"></input>
       <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
       <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
-      var signIn = function(user,pw){
-        firebase.auth().getRedirectResult().then(function(result){
-          if(result.credential){
-            var token  = result.credential.accessToken;
-          }
+      var signIn = function(provider){
+        firebase.auth().signInWithPopup(provider).then(function(result){
+          var token = result.credential.accessToken;
           var user = result.user;
-          });
-        var provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('profile');
-        provider.addScope('email');
-        firebase.auth().signInWithRedirect(provider);
+          console.log(user);
+        }).catch(function(error){
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          var email = error.email;
+          var credential = error.credential;
+        });
       } 
-      document.getElementById('signIn').addEventListener('click',signIn());      
+
+      document.getElementById('signIn').addEventListener('click',function(){
+        signIn(new firebase.auth.GoogleAuthProvider());
+      });      
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
