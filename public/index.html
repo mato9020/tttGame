@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
     <script src =" https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script> 
     <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
@@ -21,13 +21,23 @@
     
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
-
+    
     <style media="screen">
+      #loginElement{ display: none;}
+      title{ color:black; font-family:Arial, Helvetica, sans-serif;}
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #Title{ line-height: 140%; margin: 16px 0 24px; font-size: 22px; font-weight: 300; text-align:center; }
+      
+      #Game{ max-width: 40rem; margin:auto; text-align: center;}
+      #board{ border: 1px solid black; width:100%;}
+      .gameSlot{}
+      td{ width:33%; border: 5px solid black; }
+      td::after{ display: block; margin-top:100%; content:"";}
+
+      /*
       #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
       #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
       #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message input{}
       #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
       #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
       #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
@@ -35,60 +45,69 @@
       @media (max-width: 600px) {
         body, #message { margin-top: 0; background: white; box-shadow: none; }
         body { border-top: 16px solid #ffa100; }
-      }
+      }*/
     </style>
+    <title>Welcome to TicTacToe</title>
   </head>
  
   <body>
-    <title>
-      Welcome to TicTacToe
-    </title>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <input type="button" id="signIn" value="sign in"></input>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <!--= 
+    -->
+    <div id="Title">Welcome To TicTacToe</div>
+    <button onclick="document.getElementById('loginElement').style.display='block'"
+    style="width:auto;">Login</button>
+
+
+    <div id='loginElement'>
+      <form class="modal-content">
+        <div class = "imgcontainer"></div>
+        <div id = "loginContainer">
+          
+          <label for="uname"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="uname" required>
+          <label for="psw"><b>Password</b></label></label>
+          <input type="text" placeholder="Enter Password" name = "psw" required>
+          <button type="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember Me
+          </label>
+          <div class ="cancelContainer" style ="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('loginElement').style.display='none'" class = canceBtn>Cancel</button>
+            <span class="psw"> Forgot <a href="#">password?</a></span>
+          </div>
+        </div>
+      </form>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
+
+
+
+    <div id="Game">
+      <table id="board">
+        <tr>
+          <td data-location="00" class="gameSlot"></td>
+          <td data-location="01" class="gameSlot"></td>
+          <td data-location="02" class="gameSlot"></td>
+        </tr>
+         <tr>
+          <td data-location="10" class="gameSlot"></td>
+          <td data-location="11" class="gameSlot"></td>
+          <td data-location="12" class="gameSlot"></td>
+        </tr>
+        <tr>
+          <td data-location="20" class="gameSlot"></td>
+          <td data-location="21" class="gameSlot"></td>
+          <td data-location="22" class="gameSlot"></td>
+        </tr>
+      </table>
+    </div>
+    <div id="authstuff"></div>
+
+
+    
+    <script src="server.js"></script>
     <script>
-      var signIn = function(provider){
-        firebase.auth().signInWithPopup(provider).then(function(result){
-          var token = result.credential.accessToken;
-          var user = result.user;
-          console.log(user);
-        }).catch(function(error){
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          var email = error.email;
-          var credential = error.credential;
-        });
-      } 
-
-      document.getElementById('signIn').addEventListener('click',function(){
-        signIn(new firebase.auth.GoogleAuthProvider());
-      });      
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+      
     </script>
   </body>
 </html>
